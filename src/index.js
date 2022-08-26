@@ -1,4 +1,7 @@
 import './style.css';
+import { getKey } from './js/key';
 import { apiController } from './js/weather';
 
-apiController.getWeatherData();
+console.log(apiController.getWeatherData());
+
+console.log(weather());

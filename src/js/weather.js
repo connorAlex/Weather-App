@@ -1,21 +1,29 @@
 import { getKey } from "./key";
 
 const apiController = (()=> {
+    let key = getKey();
 
-    const getWeatherData = () => {
-        let lon = "41"
-        let lat = '87';
-        let key = getKey();
-    
-        async function getData() {
-            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}`, {mode:'cors'});
-            console.log(response);
-        };
-        getData();
+
+    const getLocation = async () => {
+        
+        let location = "Chicago";
+        const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${key}`, {mode: 'cors'});
+        return await response.json();
         
     };
 
+    const getWeatherData = async () => {
+        const location = await getLocation();
+        let lon = await location[0].lon;
+        let lat = await location[0].lat;
+
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}`, {mode:'cors'});
+        return await response.json();
+    
+    };
+
     return {
+        getLocation,
         getWeatherData
     };
 
