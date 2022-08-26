@@ -17,7 +17,7 @@ const apiController = (()=> {
         let lon = await location[0].lon;
         let lat = await location[0].lat;
 
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}`, {mode:'cors'});
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}&units="metric"`, {mode:'cors'});
         return await response.json();
     
     };
@@ -29,4 +29,14 @@ const apiController = (()=> {
 
 })();
 
-export {apiController}
+const unitConversions = (() => {
+    const cToF = (celsius) => {
+        return Math.round(((celsius * 1.8) * 100)) / 100 + 32;
+    };
+
+    return {
+        cToF,
+    }
+})();
+
+export {apiController, unitConversions}
