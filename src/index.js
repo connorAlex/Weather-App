@@ -1,7 +1,7 @@
 import './style.css';
 import { getKey } from './js/key';
 import { apiController } from './js/weather';
+import { displayController } from './js/display';
 
-console.log(apiController.getWeatherData());
-
-console.log(weather());
+displayController.updateData();
+//console.log(apiController.getWeatherData());

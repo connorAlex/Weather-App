@@ -1,20 +1,60 @@
 body {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     margin: 0;
     padding: 0;
     height: 100vh;
     width: 100vw;
+
+    gap: 15px;
+    
 }
 
 .display {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: 2fr 6fr 1fr;
     border: 1px solid black;
-    justify-content: center;
-    align-items: center;
-    height: 50%;
-    width: 80%;
+    border-radius: 8px;
+    
+    gap: 5px;
+    padding: 15px;
+
+    height: 60%;
+    width: 70%;
     align-self: center;
     justify-self: center;
-}   
+} 
+
+.displayHeader {
+    display: flex;
+    flex-wrap: wrap;
+
+    justify-content: space-between;
+    align-items: center;
+
+    border: 1px solid black;
+    border-radius: 8px;
+}
+
+.displayBody {
+    display: grid;
+    grid-template-rows: 2fr 1fr 1fr;
+
+    border: 1px solid black;
+    border-radius: 8px;
+}
+
+.displayBody > div:first-child {
+    display: flex;
+    justify-content: space-around;
+}
+
+.displayFooter {
+    display: flex;
+    
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 8px;
+}
