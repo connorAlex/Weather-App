@@ -62,8 +62,15 @@ const unitConversion = (() => {
         return (celsius * 1.8 + 32).toPrecision(4);
     };
 
+    const mpsToMph = (mps) => {
+
+        return (mps * 2.236936).toPrecision(4);
+
+    };
+
     return {
         cToF,
+        mpsToMph
     }
 })();
 
