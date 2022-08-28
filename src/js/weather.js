@@ -20,9 +20,7 @@ const apiController = (()=> {
     };
 
     const getWeatherData = async (locationName) => {
-        let name = await locationName;
-        console.log(name);
-        const location = await getLocation(name);
+        const location = await getLocation(locationName);
         let lon = await location[0].lon;
         let lat = await location[0].lat;
 
@@ -58,15 +56,11 @@ const apiController = (()=> {
 
 const unitConversion = (() => {
     const cToF = (celsius) => {
-        console.log((celsius * 1.8 + 32).toPrecision(4))
-        
         return (celsius * 1.8 + 32).toPrecision(4);
     };
 
     const mpsToMph = (mps) => {
-
         return (mps * 2.236936).toPrecision(4);
-
     };
 
     return {
