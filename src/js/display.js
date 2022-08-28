@@ -2,8 +2,7 @@ import { apiController, unitConversion } from "./weather";
 
 const displayController = (() => {
     
-    //let unit = (apiController.getMeasurement() === "metric")? "ºC": "ºF";
-    let unit = "ºF";
+    let unit = (apiController.getMeasurement() === "metric")? "ºC": "ºF";
 
     const updateData = async (city) => {
         let data = await apiController.getWeatherData(city);
@@ -14,6 +13,11 @@ const displayController = (() => {
         updateHeader(data);
         updateBody(data);
         updateFooter(data);
+    };
+
+    const updateUnit = () => {
+        unit = (apiController.getMeasurement() === "metric")? "ºC": "ºF";
+        console.log(unit);
     };
 
     const convertDegreeUnit = (data) => {
@@ -55,9 +59,13 @@ const displayController = (() => {
         let high = document.querySelector(".high");
         let low = document.querySelector(".low");
         let humidity = document.querySelector(".humidity");
+        let btn = document.querySelector(".degree");
+        if (btn != null) {
+            btn.remove();
+        }
 
-
-        temp.innerHTML = data.temp + " " + unit;
+        temp.innerHTML = data.temp + " ";
+        temp.parentNode.insertBefore(createDegreeBtn(unit),temp.nextSibling);
         high.innerHTML = "H" + data.tempHigh + "º";
         low.innerHTML = "L" + data.tempLow + "º";
         humidity.innerHTML = "humidity: " + data.humidity + "%";
@@ -71,28 +79,54 @@ const displayController = (() => {
         let wind = document.querySelector(".wind");
 
         clouds.innerHTML = "clouds: " + data.clouds + "%";
-        vis.innerHTML = "visibilty: " +data.visibility;
+        vis.innerHTML = "visibility: " +data.visibility;
         wind.innerHTML = "windspeed: " + data.windSpeed;
     };
 
+    const createDegreeBtn = (text) => {
+        const btn = document.createElement("div");
+        btn.classList.add("degree");
+        btn.style.cursor = "pointer";
+        btn.innerHTML = text;
 
+        eventController.addBtnListener(btn);
+
+        return btn;
+    };
+
+    const getBtn = () => document.querySelector(".degree");
     
     
     return {
         updateData,
-        returnLocationInput
+        returnLocationInput,
+        getBtn,
+        updateUnit
     }
 })();
 
 const eventController = (() => {
     const input = displayController.returnLocationInput();
+    
+    
 
     input.addEventListener("keypress", (e) => {
         if (e.key === "Enter") {
             displayController.updateData(input.value);
         }
     });
-    
+
+    const addBtnListener = (element) => {
+        
+        element.addEventListener("click",(e)=> {
+            
+            apiController.toggleMeasurement();
+            displayController.updateUnit()
+            displayController.updateData(input.value)
+        });
+    };
+   
+    return {addBtnListener};
 
 })();
 
