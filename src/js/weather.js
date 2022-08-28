@@ -10,8 +10,11 @@ const apiController = (()=> {
         } else{
             measurement = "metric";
         }
-    }
-    const getLocation = async (data) => {
+    };
+
+    const getMeasurement = () => measurement;
+
+    const getLocation = async (locationName) => {
         let location = "Seattle";
         const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${key}`, {mode: 'cors'});
         return await response.json();
@@ -46,14 +49,17 @@ const apiController = (()=> {
 
     return {
         toggleMeasurement,
-        getWeatherData
+        getWeatherData,
+        getMeasurement
     };
 
 })();
 
 const unitConversion = (() => {
     const cToF = (celsius) => {
-        return Math.round(((celsius * 1.8) * 100)) / 100 + 32;
+        console.log((celsius * 1.8 + 32).toPrecision(4))
+        
+        return (celsius * 1.8 + 32).toPrecision(4);
     };
 
     return {

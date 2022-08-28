@@ -2,12 +2,34 @@ import { apiController, unitConversion } from "./weather";
 
 const displayController = (() => {
     
+    //let unit = (apiController.getMeasurement() === "metric")? "C": "F";
+    let unit = "F";
 
     const updateData = async () => {
-        const data = await apiController.getWeatherData();
+        let data = await apiController.getWeatherData();
+        if (unit === "F"){
+            data = convertDegreeUnit(data);
+        };
+        
         updateHeader(data);
         updateBody(data);
         updateFooter(data);
+    };
+
+    const convertDegreeUnit = (data) => {
+
+        const temps = [
+            "temp",
+            "feelsLike",
+            "tempHigh",
+            "tempLow"
+        ];
+
+        temps.forEach((e) => {
+            data[e] = unitConversion.cToF(data[e]);
+        });
+        
+        return data;
     };
 
     const updateHeader = (data) => {
@@ -28,12 +50,12 @@ const displayController = (() => {
         let humidity = document.querySelector(".humidity");
 
 
-        temp.innerHTML = data.temp;
-        high.innerHTML = data.tempHigh;
-        low.innerHTML = data.tempLow;
-        humidity.innerHTML = data.humidity;
+        temp.innerHTML = data.temp + " " + unit;
+        high.innerHTML = "H: " + data.tempHigh + unit;
+        low.innerHTML = "L: " + data.tempLow;
+        humidity.innerHTML = "humidity: " + data.humidity + "%";
         //remove if theyre the same
-        feelsLike.innerHTML = data.feelsLike;
+        feelsLike.innerHTML = "feels like: " + data.feelsLike;
     };
 
     const updateFooter = (data) => {
@@ -41,7 +63,7 @@ const displayController = (() => {
         let vis = document.querySelector(".vis");
         let wind = document.querySelector(".wind");
 
-        clouds.innerHTML = data.clouds;
+        clouds.innerHTML = "clouds" + data.clouds + "%";
         vis.innerHTML = data.visibility;
         wind.innerHTML = data.windSpeed;
     };
