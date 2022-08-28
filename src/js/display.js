@@ -89,9 +89,7 @@ const eventController = (() => {
 
     input.addEventListener("keypress", (e) => {
         if (e.key === "Enter") {
-            
-            console.log(input.value);
-            // apiController.getWeatherData();
+            displayController.updateData(input.value);
         }
     });
     
