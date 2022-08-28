@@ -15,13 +15,14 @@ const apiController = (()=> {
     const getMeasurement = () => measurement;
 
     const getLocation = async (locationName) => {
-        let location = "Seattle";
-        const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${key}`, {mode: 'cors'});
+        const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${locationName}&limit=1&appid=${key}`, {mode: 'cors'});
         return await response.json();
     };
 
-    const getWeatherData = async () => {
-        const location = await getLocation();
+    const getWeatherData = async (locationName) => {
+        let name = await locationName;
+        console.log(name);
+        const location = await getLocation(name);
         let lon = await location[0].lon;
         let lat = await location[0].lat;
 
