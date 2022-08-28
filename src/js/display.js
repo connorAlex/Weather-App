@@ -3,6 +3,7 @@ import { apiController, unitConversion } from "./weather";
 const displayController = (() => {
     
     let unit = (apiController.getMeasurement() === "metric")? "ºC": "ºF";
+    let speed = (unit === "ºC") ? "mps" : "mph";
 
     const updateData = async (city) => {
         let data = await apiController.getWeatherData(city);
@@ -17,7 +18,7 @@ const displayController = (() => {
 
     const updateUnit = () => {
         unit = (apiController.getMeasurement() === "metric")? "ºC": "ºF";
-        console.log(unit);
+        speed = (unit === "ºC") ? "mps" : "mph";
     };
 
     const convertDegreeUnit = (data) => {
@@ -79,8 +80,8 @@ const displayController = (() => {
         let wind = document.querySelector(".wind");
 
         clouds.innerHTML = "clouds: " + data.clouds + "%";
-        vis.innerHTML = "visibility: " +data.visibility;
-        wind.innerHTML = "windspeed: " + data.windSpeed;
+        vis.innerHTML = "visibility: " + (data.visibility / 10000) * 100 + "%";
+        wind.innerHTML = "windspeed: " + data.windSpeed + " " + speed;
     };
 
     const createDegreeBtn = (text) => {
