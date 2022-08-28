@@ -5,8 +5,8 @@ const displayController = (() => {
     //let unit = (apiController.getMeasurement() === "metric")? "ºC": "ºF";
     let unit = "ºF";
 
-    const updateData = async () => {
-        let data = await apiController.getWeatherData();
+    const updateData = async (city) => {
+        let data = await apiController.getWeatherData(city);
         if (unit === "ºF"){
             data = convertDegreeUnit(data);
         };
@@ -34,12 +34,17 @@ const displayController = (() => {
         return data;
     };
 
+    const returnLocationInput = () => {
+        const location = document.querySelector("input");
+        return location;
+    }
+
     const updateHeader = (data) => {
         
         let city = document.querySelector(".city");
         let desc = document.querySelector(".weatherDesc");
 
-        city.innerHTML = data.locationName;
+        city.value = data.locationName;
         desc.innerHTML = data.weatherDesc;
 
     };
@@ -53,11 +58,11 @@ const displayController = (() => {
 
 
         temp.innerHTML = data.temp + " " + unit;
-        high.innerHTML = "H: " + data.tempHigh + unit;
-        low.innerHTML = "L: " + data.tempLow;
+        high.innerHTML = "H" + data.tempHigh + "º";
+        low.innerHTML = "L" + data.tempLow + "º";
         humidity.innerHTML = "humidity: " + data.humidity + "%";
         //remove if theyre the same
-        feelsLike.innerHTML = "feels like: " + data.feelsLike;
+        feelsLike.innerHTML = "feels like: " + data.feelsLike + "º";
     };
 
     const updateFooter = (data) => {
@@ -65,7 +70,7 @@ const displayController = (() => {
         let vis = document.querySelector(".vis");
         let wind = document.querySelector(".wind");
 
-        clouds.innerHTML = "clouds" + data.clouds + "%";
+        clouds.innerHTML = "clouds: " + data.clouds + "%";
         vis.innerHTML = "visibilty: " +data.visibility;
         wind.innerHTML = "windspeed: " + data.windSpeed;
     };
@@ -74,12 +79,21 @@ const displayController = (() => {
     
     
     return {
-        updateData
+        updateData,
+        returnLocationInput
     }
 })();
 
 const eventController = (() => {
+    const input = displayController.returnLocationInput();
 
+    input.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+            
+            console.log(input.value);
+            // apiController.getWeatherData();
+        }
+    });
     
 
 })();
