@@ -2,12 +2,12 @@ import { apiController, unitConversion } from "./weather";
 
 const displayController = (() => {
     
-    //let unit = (apiController.getMeasurement() === "metric")? "C": "F";
-    let unit = "F";
+    //let unit = (apiController.getMeasurement() === "metric")? "ºC": "ºF";
+    let unit = "ºF";
 
     const updateData = async () => {
         let data = await apiController.getWeatherData();
-        if (unit === "F"){
+        if (unit === "ºF"){
             data = convertDegreeUnit(data);
         };
         
@@ -28,6 +28,8 @@ const displayController = (() => {
         temps.forEach((e) => {
             data[e] = unitConversion.cToF(data[e]);
         });
+
+        data.windSpeed = unitConversion.mpsToMph(data.windSpeed);
         
         return data;
     };
@@ -64,8 +66,8 @@ const displayController = (() => {
         let wind = document.querySelector(".wind");
 
         clouds.innerHTML = "clouds" + data.clouds + "%";
-        vis.innerHTML = data.visibility;
-        wind.innerHTML = data.windSpeed;
+        vis.innerHTML = "visibilty: " +data.visibility;
+        wind.innerHTML = "windspeed: " + data.windSpeed;
     };
 
 
