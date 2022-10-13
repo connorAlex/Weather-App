@@ -15,7 +15,7 @@ const apiController = (()=> {
     const getMeasurement = () => measurement;
 
     const getLocation = async (locationName) => {
-        const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${locationName}&limit=1&appid=${key}`, {mode: 'cors'});
+        const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${locationName}&limit=1&appid=${key}`, {mode: 'cors'});
         return await response.json();
     };
 
